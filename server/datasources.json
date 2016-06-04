@@ -2,5 +2,14 @@
   "db": {
     "name": "db",
     "connector": "memory"
+  },
+  "cloudant": {
+    "host": "46de104a-8db1-42f1-b6e1-a3b0f6abe3c0-bluemix.cloudant.com",
+    "port": 443,
+    "database": "volunteers",
+    "username": "46de104a-8db1-42f1-b6e1-a3b0f6abe3c0-bluemix",
+    "password": "3a2d3200a0f0c3439692f06b7266c1dce64ea8991c7a150748b91f56596813eb",
+    "name": "cloudant",
+    "connector": "cloudant"
   }
 }

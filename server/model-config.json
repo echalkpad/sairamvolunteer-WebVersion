@@ -9,6 +9,7 @@
     "mixins": [
       "loopback/common/mixins",
       "loopback/server/mixins",
+      "../node_modules/loopback-ds-timestamp-mixin",
       "../common/mixins",
       "./mixins"
     ]
@@ -37,5 +38,21 @@
     "public": true,
     "$promise": {},
     "$resolved": true
+  },
+  "Customer": {
+    "dataSource": "cloudant",
+    "public": true
+  },
+  "leaders": {
+    "dataSource": "cloudant",
+    "public": true
+  },
+  "volunteerevents": {
+    "dataSource": "cloudant",
+    "public": true
+  },
+  "Comments": {
+    "dataSource": "cloudant",
+    "public": true
   }
 }
