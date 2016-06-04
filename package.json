@@ -1,5 +1,5 @@
 {
-  "name": "Volunteers R Us",
+  "name": "Volunteers",
   "description": "A simple volunteers registration application",
   "version": "1.0.0",
   "main": "server/server.js",
