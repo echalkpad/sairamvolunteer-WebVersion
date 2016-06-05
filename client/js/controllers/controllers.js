@@ -2,7 +2,7 @@
 
 angular.module('volunteerEventsApp')
 
-.controller('VolunteerEventController', ['$scope', '$rootScope', 'volunteerevents', 'Favorites', function ($scope, $rootScope, volunteerevents, Favorites) {
+.controller('VolunteerEventController', ['$scope', '$rootScope', 'Volunteerevents', 'Favorites', function ($scope, $rootScope, Volunteerevents, Favorites) {
 
     $scope.tab = 1;
     $scope.filtText = '';
@@ -11,10 +11,10 @@ angular.module('volunteerEventsApp')
     $scope.showVolunteerEvent = false;
     $scope.message = "Loading ...";
 
-    volunteerevents.find()
+    Volunteerevents.find()
         .$promise.then(
         function (response) {
-            $scope.dishes = response;
+            $scope.volunteerevents = response;
             $scope.showVolunteerEvent = true;
 
         },
@@ -143,13 +143,13 @@ angular.module('volunteerEventsApp')
 
 // implement the IndexController and About Controller here
 
-.controller('HomeController', ['$scope', 'volunteerevents', 'Leaders',  function ($scope, volunteerevents, Leaders) {
+.controller('HomeController', ['$scope', 'Volunteerevents', 'Leaders',  function ($scope,  Volunteerevents, Leaders) {
     $scope.showVolunteerEvent = false;
     $scope.showLeader = false;
     $scope.showPromotion = false;
     $scope.message = "Loading ...";
     console.log("Anout to fetch leaders");
-    var leaders = Leaders.findOne({"filter":{"where":{
+    var leadersInfo = Leaders.findOne({"filter":{"where":{
             "featured": "true"
         }}})
         .$promise.then(
@@ -162,7 +162,7 @@ angular.module('volunteerEventsApp')
             }
         );
     console.log("About to fetch volunteer event")
-    $scope.volunteerevent = volunteerevents.findOne({"filter":{"where":{
+    $scope.volunteerevent = Volunteerevents.findOne({"filter":{"where":{
             "featuredevent": "true"
         }}})
         .$promise.then(
