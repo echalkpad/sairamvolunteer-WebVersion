@@ -1,15 +1,17 @@
 module.exports = function (app) {
   var cloudantDB = app.dataSources.cloudant;
+  
+    console.log("Entered the scripts js file ------");
   cloudantDB.automigrate('Customer', function (err) {
     if (err) throw (err);
     var Customer = app.models.Customer;
-    Customer.find({ where: { username: 'Admin' }, limit: 1 }, function (err, users) {
+    Customer.find({ where: { username: 'Admin2' }, limit: 1 }, function (err, users) {
 
-      if (users) {
+      if (!users) {
 
-
+		console.log("users is not found. Hence creating Admin user");
         Customer.create([
-          { username: 'Admin', email: 'admin@admin.com', password: 'abcdef' }
+          { username: 'Admin2', email: 'admin2@admin2.com', password: 'abcdef' }
         ], function (err, users) {
           if (err) return debug(err);
 
@@ -18,6 +20,7 @@ module.exports = function (app) {
 
           Role.destroyAll();
           RoleMapping.destroyAll();
+          console.log("about to create role");
 
           //create the admin role
           Role.create({
@@ -36,7 +39,7 @@ module.exports = function (app) {
         })
       }
       else {
-
+			console.log("admin2 user found and not creating a new one");
       }
 
     });
