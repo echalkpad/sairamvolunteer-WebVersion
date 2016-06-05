@@ -7,7 +7,7 @@ module.exports = function (app) {
     var Customer = app.models.Customer;
     Customer.find({ where: { username: 'Admin2' }, limit: 1 }, function (err, users) {
 
-      if (users) {
+      if (!users) {
 
 		console.log("users is not found. Hence creating Admin user");
         Customer.create([
