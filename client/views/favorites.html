@@ -31,7 +31,7 @@
                     <a ng-click="select(1)"
                      aria-controls="all menu"
                     role="tab">Events</a></li>
-                    <!--<li role="presentation"
+                    <!--  <li role="presentation"
                     ng-class="{active:isSelected(2)}">
                     <a ng-click="select(2)"
                     aria-controls="appetizers"
@@ -52,9 +52,9 @@
                <ul class="media-list tab-pane fade in active">
                 <li class="media" ng-repeat="favorite in favorites | filter:filtText">
                     <div class="media-left media-middle">
-                        <a ui-sref="app.volunteereventdetails({id: favorite.volunteerevents.id})">
+                        <a ui-sref="app.volunteereventdetail({id: favorite.volunteerevents.id})">
                         <img class="media-object img-thumbnail"
-                        ng-src={{favorite.volunteerevents.image}} alt="Uthappizza">
+                        ng-src={{favorite.volunteerevents.image}} alt="Event">
                         </a>
                     </div>
                     <div class="media-body">
