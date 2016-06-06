@@ -7,9 +7,9 @@ module.exports = function (app) {
     var Customer = app.models.Customer;
     Customer.find({ where: { username: 'Admin2' }, limit: 1 }, function (err, users) {
 
-      if (!users) {
+      if (users) {
 
-		console.log("users is not found. Hence creating Admin user");
+		console.log("users Admin2 is not found. Hence creating Admin2 user");
         Customer.create([
           { username: 'Admin2', email: 'admin2@admin2.com', password: 'abcdef' }
         ], function (err, users) {
@@ -20,7 +20,7 @@ module.exports = function (app) {
 
           Role.destroyAll();
           RoleMapping.destroyAll();
-          console.log("about to create role");
+          console.log("about to create role - admin");
 
           //create the admin role
           Role.create({
