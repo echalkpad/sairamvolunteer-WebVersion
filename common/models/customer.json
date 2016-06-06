@@ -12,6 +12,16 @@
       "type": "hasMany",
       "model": "Comments",
       "foreignKey": "customerId"
+    },
+    "favorites": {
+      "type": "hasMany",
+      "model": "Favorites",
+      "foreignKey": "customerId"
+    },
+    "registeredevents": {
+      "type": "hasMany",
+      "model": "volunteerevents",
+      "foreignKey": "customerId"
     }
   },
   "acls": [],

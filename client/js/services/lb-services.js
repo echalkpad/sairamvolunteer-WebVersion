@@ -1856,6 +1856,33 @@ module.factory(
           method: "PUT"
         },
 
+        // INTERNAL. Use Customer.registeredevents.findById() instead.
+        "prototype$__findById__registeredevents": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/Customers/:id/registeredevents/:fk",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Customer.registeredevents.destroyById() instead.
+        "prototype$__destroyById__registeredevents": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/Customers/:id/registeredevents/:fk",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use Customer.registeredevents.updateById() instead.
+        "prototype$__updateById__registeredevents": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/Customers/:id/registeredevents/:fk",
+          method: "PUT"
+        },
+
         // INTERNAL. Use Customer.comments.findById() instead.
         "prototype$__findById__comments": {
           params: {
@@ -1880,6 +1907,33 @@ module.factory(
           'fk': '@fk'
           },
           url: urlBase + "/Customers/:id/comments/:fk",
+          method: "PUT"
+        },
+
+        // INTERNAL. Use Customer.favorites.findById() instead.
+        "prototype$__findById__favorites": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/Customers/:id/favorites/:fk",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Customer.favorites.destroyById() instead.
+        "prototype$__destroyById__favorites": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/Customers/:id/favorites/:fk",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use Customer.favorites.updateById() instead.
+        "prototype$__updateById__favorites": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/Customers/:id/favorites/:fk",
           method: "PUT"
         },
 
@@ -2020,6 +2074,31 @@ module.factory(
           method: "GET"
         },
 
+        // INTERNAL. Use Customer.registeredevents() instead.
+        "prototype$__get__registeredevents": {
+          isArray: true,
+          url: urlBase + "/Customers/:id/registeredevents",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Customer.registeredevents.create() instead.
+        "prototype$__create__registeredevents": {
+          url: urlBase + "/Customers/:id/registeredevents",
+          method: "POST"
+        },
+
+        // INTERNAL. Use Customer.registeredevents.destroyAll() instead.
+        "prototype$__delete__registeredevents": {
+          url: urlBase + "/Customers/:id/registeredevents",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use Customer.registeredevents.count() instead.
+        "prototype$__count__registeredevents": {
+          url: urlBase + "/Customers/:id/registeredevents/count",
+          method: "GET"
+        },
+
         // INTERNAL. Use Customer.comments() instead.
         "prototype$__get__comments": {
           isArray: true,
@@ -2042,6 +2121,31 @@ module.factory(
         // INTERNAL. Use Customer.comments.count() instead.
         "prototype$__count__comments": {
           url: urlBase + "/Customers/:id/comments/count",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Customer.favorites() instead.
+        "prototype$__get__favorites": {
+          isArray: true,
+          url: urlBase + "/Customers/:id/favorites",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Customer.favorites.create() instead.
+        "prototype$__create__favorites": {
+          url: urlBase + "/Customers/:id/favorites",
+          method: "POST"
+        },
+
+        // INTERNAL. Use Customer.favorites.destroyAll() instead.
+        "prototype$__delete__favorites": {
+          url: urlBase + "/Customers/:id/favorites",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use Customer.favorites.count() instead.
+        "prototype$__count__favorites": {
+          url: urlBase + "/Customers/:id/favorites/count",
           method: "GET"
         },
 
@@ -2928,6 +3032,307 @@ module.factory(
 
     /**
      * @ngdoc object
+     * @name lbServices.Customer.registeredevents
+     * @header lbServices.Customer.registeredevents
+     * @object
+     * @description
+     *
+     * The object `Customer.registeredevents` groups methods
+     * manipulating `Volunteerevents` instances related to `Customer`.
+     *
+     * Call {@link lbServices.Customer#registeredevents Customer.registeredevents()}
+     * to query all related instances.
+     */
+
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer#registeredevents
+         * @methodOf lbServices.Customer
+         *
+         * @description
+         *
+         * Queries registeredevents of Customer.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `filter` – `{object=}` - 
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Volunteerevents` object.)
+         * </em>
+         */
+        R.registeredevents = function() {
+          var TargetResource = $injector.get("Volunteerevents");
+          var action = TargetResource["::get::Customer::registeredevents"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer.registeredevents#count
+         * @methodOf lbServices.Customer.registeredevents
+         *
+         * @description
+         *
+         * Counts registeredevents of Customer.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `count` – `{number=}` - 
+         */
+        R.registeredevents.count = function() {
+          var TargetResource = $injector.get("Volunteerevents");
+          var action = TargetResource["::count::Customer::registeredevents"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer.registeredevents#create
+         * @methodOf lbServices.Customer.registeredevents
+         *
+         * @description
+         *
+         * Creates a new instance in registeredevents of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Volunteerevents` object.)
+         * </em>
+         */
+        R.registeredevents.create = function() {
+          var TargetResource = $injector.get("Volunteerevents");
+          var action = TargetResource["::create::Customer::registeredevents"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer.registeredevents#createMany
+         * @methodOf lbServices.Customer.registeredevents
+         *
+         * @description
+         *
+         * Creates a new instance in registeredevents of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Volunteerevents` object.)
+         * </em>
+         */
+        R.registeredevents.createMany = function() {
+          var TargetResource = $injector.get("Volunteerevents");
+          var action = TargetResource["::createMany::Customer::registeredevents"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer.registeredevents#destroyAll
+         * @methodOf lbServices.Customer.registeredevents
+         *
+         * @description
+         *
+         * Deletes all registeredevents of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        R.registeredevents.destroyAll = function() {
+          var TargetResource = $injector.get("Volunteerevents");
+          var action = TargetResource["::delete::Customer::registeredevents"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer.registeredevents#destroyById
+         * @methodOf lbServices.Customer.registeredevents
+         *
+         * @description
+         *
+         * Delete a related item by id for registeredevents.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `fk` – `{*}` - Foreign key for registeredevents
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        R.registeredevents.destroyById = function() {
+          var TargetResource = $injector.get("Volunteerevents");
+          var action = TargetResource["::destroyById::Customer::registeredevents"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer.registeredevents#findById
+         * @methodOf lbServices.Customer.registeredevents
+         *
+         * @description
+         *
+         * Find a related item by id for registeredevents.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `fk` – `{*}` - Foreign key for registeredevents
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Volunteerevents` object.)
+         * </em>
+         */
+        R.registeredevents.findById = function() {
+          var TargetResource = $injector.get("Volunteerevents");
+          var action = TargetResource["::findById::Customer::registeredevents"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer.registeredevents#updateById
+         * @methodOf lbServices.Customer.registeredevents
+         *
+         * @description
+         *
+         * Update a related item by id for registeredevents.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `fk` – `{*}` - Foreign key for registeredevents
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Volunteerevents` object.)
+         * </em>
+         */
+        R.registeredevents.updateById = function() {
+          var TargetResource = $injector.get("Volunteerevents");
+          var action = TargetResource["::updateById::Customer::registeredevents"];
+          return action.apply(R, arguments);
+        };
+    /**
+     * @ngdoc object
      * @name lbServices.Customer.comments
      * @header lbServices.Customer.comments
      * @object
@@ -3225,6 +3630,307 @@ module.factory(
         R.comments.updateById = function() {
           var TargetResource = $injector.get("Comments");
           var action = TargetResource["::updateById::Customer::comments"];
+          return action.apply(R, arguments);
+        };
+    /**
+     * @ngdoc object
+     * @name lbServices.Customer.favorites
+     * @header lbServices.Customer.favorites
+     * @object
+     * @description
+     *
+     * The object `Customer.favorites` groups methods
+     * manipulating `Favorites` instances related to `Customer`.
+     *
+     * Call {@link lbServices.Customer#favorites Customer.favorites()}
+     * to query all related instances.
+     */
+
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer#favorites
+         * @methodOf lbServices.Customer
+         *
+         * @description
+         *
+         * Queries favorites of Customer.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `filter` – `{object=}` - 
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Favorites` object.)
+         * </em>
+         */
+        R.favorites = function() {
+          var TargetResource = $injector.get("Favorites");
+          var action = TargetResource["::get::Customer::favorites"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer.favorites#count
+         * @methodOf lbServices.Customer.favorites
+         *
+         * @description
+         *
+         * Counts favorites of Customer.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `count` – `{number=}` - 
+         */
+        R.favorites.count = function() {
+          var TargetResource = $injector.get("Favorites");
+          var action = TargetResource["::count::Customer::favorites"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer.favorites#create
+         * @methodOf lbServices.Customer.favorites
+         *
+         * @description
+         *
+         * Creates a new instance in favorites of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Favorites` object.)
+         * </em>
+         */
+        R.favorites.create = function() {
+          var TargetResource = $injector.get("Favorites");
+          var action = TargetResource["::create::Customer::favorites"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer.favorites#createMany
+         * @methodOf lbServices.Customer.favorites
+         *
+         * @description
+         *
+         * Creates a new instance in favorites of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Favorites` object.)
+         * </em>
+         */
+        R.favorites.createMany = function() {
+          var TargetResource = $injector.get("Favorites");
+          var action = TargetResource["::createMany::Customer::favorites"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer.favorites#destroyAll
+         * @methodOf lbServices.Customer.favorites
+         *
+         * @description
+         *
+         * Deletes all favorites of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        R.favorites.destroyAll = function() {
+          var TargetResource = $injector.get("Favorites");
+          var action = TargetResource["::delete::Customer::favorites"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer.favorites#destroyById
+         * @methodOf lbServices.Customer.favorites
+         *
+         * @description
+         *
+         * Delete a related item by id for favorites.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `fk` – `{*}` - Foreign key for favorites
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        R.favorites.destroyById = function() {
+          var TargetResource = $injector.get("Favorites");
+          var action = TargetResource["::destroyById::Customer::favorites"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer.favorites#findById
+         * @methodOf lbServices.Customer.favorites
+         *
+         * @description
+         *
+         * Find a related item by id for favorites.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `fk` – `{*}` - Foreign key for favorites
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Favorites` object.)
+         * </em>
+         */
+        R.favorites.findById = function() {
+          var TargetResource = $injector.get("Favorites");
+          var action = TargetResource["::findById::Customer::favorites"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Customer.favorites#updateById
+         * @methodOf lbServices.Customer.favorites
+         *
+         * @description
+         *
+         * Update a related item by id for favorites.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `fk` – `{*}` - Foreign key for favorites
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Favorites` object.)
+         * </em>
+         */
+        R.favorites.updateById = function() {
+          var TargetResource = $injector.get("Favorites");
+          var action = TargetResource["::updateById::Customer::favorites"];
           return action.apply(R, arguments);
         };
 
@@ -4372,6 +5078,65 @@ module.factory(
         "createChangeStream": {
           url: urlBase + "/volunteerevents/change-stream",
           method: "POST"
+        },
+
+        // INTERNAL. Use Customer.registeredevents.findById() instead.
+        "::findById::Customer::registeredevents": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/Customers/:id/registeredevents/:fk",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Customer.registeredevents.destroyById() instead.
+        "::destroyById::Customer::registeredevents": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/Customers/:id/registeredevents/:fk",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use Customer.registeredevents.updateById() instead.
+        "::updateById::Customer::registeredevents": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/Customers/:id/registeredevents/:fk",
+          method: "PUT"
+        },
+
+        // INTERNAL. Use Customer.registeredevents() instead.
+        "::get::Customer::registeredevents": {
+          isArray: true,
+          url: urlBase + "/Customers/:id/registeredevents",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Customer.registeredevents.create() instead.
+        "::create::Customer::registeredevents": {
+          url: urlBase + "/Customers/:id/registeredevents",
+          method: "POST"
+        },
+
+        // INTERNAL. Use Customer.registeredevents.createMany() instead.
+        "::createMany::Customer::registeredevents": {
+          isArray: true,
+          url: urlBase + "/Customers/:id/registeredevents",
+          method: "POST"
+        },
+
+        // INTERNAL. Use Customer.registeredevents.destroyAll() instead.
+        "::delete::Customer::registeredevents": {
+          url: urlBase + "/Customers/:id/registeredevents",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use Customer.registeredevents.count() instead.
+        "::count::Customer::registeredevents": {
+          url: urlBase + "/Customers/:id/registeredevents/count",
+          method: "GET"
         },
 
         // INTERNAL. Use Comments.volunteerevents() instead.
@@ -6384,6 +7149,65 @@ module.factory(
         "createChangeStream": {
           url: urlBase + "/Favorites/change-stream",
           method: "POST"
+        },
+
+        // INTERNAL. Use Customer.favorites.findById() instead.
+        "::findById::Customer::favorites": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/Customers/:id/favorites/:fk",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Customer.favorites.destroyById() instead.
+        "::destroyById::Customer::favorites": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/Customers/:id/favorites/:fk",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use Customer.favorites.updateById() instead.
+        "::updateById::Customer::favorites": {
+          params: {
+          'fk': '@fk'
+          },
+          url: urlBase + "/Customers/:id/favorites/:fk",
+          method: "PUT"
+        },
+
+        // INTERNAL. Use Customer.favorites() instead.
+        "::get::Customer::favorites": {
+          isArray: true,
+          url: urlBase + "/Customers/:id/favorites",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Customer.favorites.create() instead.
+        "::create::Customer::favorites": {
+          url: urlBase + "/Customers/:id/favorites",
+          method: "POST"
+        },
+
+        // INTERNAL. Use Customer.favorites.createMany() instead.
+        "::createMany::Customer::favorites": {
+          isArray: true,
+          url: urlBase + "/Customers/:id/favorites",
+          method: "POST"
+        },
+
+        // INTERNAL. Use Customer.favorites.destroyAll() instead.
+        "::delete::Customer::favorites": {
+          url: urlBase + "/Customers/:id/favorites",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use Customer.favorites.count() instead.
+        "::count::Customer::favorites": {
+          url: urlBase + "/Customers/:id/favorites/count",
+          method: "GET"
         },
       }
     );
