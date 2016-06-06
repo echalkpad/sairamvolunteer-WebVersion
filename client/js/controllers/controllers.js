@@ -96,18 +96,18 @@ angular.module('volunteerEventsApp')
     };
 }])
 
-.controller('VolunteerEventDetailController', ['$scope', '$rootScope', '$state', '$stateParams', 'volunteerevents', 'Comments', function ($scope, $rootScope, $state, $stateParams, volunteerevents, Comments) {
+.controller('VolunteerEventDetailController', ['$scope', '$rootScope', '$state', '$stateParams', 'Volunteerevents', 'Comments', function ($scope, $rootScope, $state, $stateParams, Volunteerevents, Comments) {
 
     $scope.volunteerevent = {};
     $scope.showVolunteerEvent = false;
     $scope.message = "Loading ...";
 
-    $scope.volunteerevent = volunteerevents.findById({id: $stateParams.id})
+    $scope.volunteerevent = Volunteerevents.findById({id: $stateParams.id})
         .$promise.then(
             function (response) {
-                $scope.dish = response;
+                $scope.volunteerevent = response;
                 $scope.showVolunteerEvent = true;
-                $scope.volunteerevent.comments = volunteerevents.comments({
+                $scope.volunteerevent.comments = Volunteerevents.comments({
                     id: $stateParams.id,
                     "filter":{"include":["customer"]}});
             },
@@ -136,7 +136,7 @@ angular.module('volunteerEventsApp')
         $scope.mycomment = {
             rating: 5,
             comment: "",
-            dishesId: $stateParams.id,
+            volunteereventsId: $stateParams.id,
         };
     }
 }])
