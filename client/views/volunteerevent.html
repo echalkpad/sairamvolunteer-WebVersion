@@ -38,13 +38,13 @@
                <ul class="media-list tab-pane fade in active">
                 <li class="media" ng-repeat="volunteerevent in volunteerevents | filter:filtText">
                     <div class="media-left media-middle">
-                        <a ui-sref="app.volunteereventdetails({id: volunteerevent.id})">
+                        <a ui-sref="app.volunteereventdetail({id: volunteerevent.id})">
                         <img class="media-object img-thumbnail"
                         ng-src={{volunteerevent.image}} alt="Featured Event">
                         </a>
                     </div>
                     <div class="media-body">
-                        <h2 class="media-heading">{{volunteerevent.name}}
+                        <h2 class="media-heading">{{volunteerevent.name}} </h2>
                         <!--<span class="label label-danger label-xs">{{dish.label}}</span>
                         <span class="badge">{{dish.price/100 | currency}}</span></h2>-->
                         <p ng-show="showDetails">{{volunteerevent.description}}</p>
