@@ -44,6 +44,7 @@
                 <li ng-repeat="comment in volunteerevent.comments | orderBy:orderText">
                     <blockquote>
                         <p>{{comment.rating}} Stars</p>
+                        <span class="glyphicon" aria-hidden="true" ng-repeat="s in [0,0,0,0,0] track by $index" ng-class="$index >= comment.rating ? 'no-rating glyphicon-star-empty' : 'star-rating glyphicon-star'"></span>
                         <p>{{comment.comment}}</p>
                         <footer>{{comment.customer.firstname}} {{comment.customer.username}}, {{comment.updatedAt | date:'MMM. dd, yyyy'}}</footer>
                     </blockquote>
