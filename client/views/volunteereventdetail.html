@@ -28,10 +28,9 @@
                 </div>
                 <div class="media-body">
                     <h2 class="media-heading">{{volunteerevent.name}} </h2>
-
-                      <!--<span class="label label-danger">{{dish.label}}</span>
-                        <span class="badge">{{dish.price/100 | currency}}</span></h2>-->
                     <p>{{volunteerevent.description}}</p>
+                    <p><h3>{{volunteerevent.when}} &emsp; &emsp;&emsp;&emsp;&emsp;&emsp; &emsp; {{volunteerevent.where}}</h3></p>
+
                 </div>
             </div>
         </div>
@@ -43,8 +42,8 @@
             <ul class="list-unstyled">
                 <li ng-repeat="comment in volunteerevent.comments | orderBy:orderText">
                     <blockquote>
-                        <p>{{comment.rating}} Stars</p>
-                        <span class="glyphicon" aria-hidden="true" ng-repeat="s in [0,0,0,0,0] track by $index" ng-class="$index >= comment.rating ? 'no-rating glyphicon-star-empty' : 'star-rating glyphicon-star'"></span>
+                        <p>{{comment.rating}} Stars
+                            <span class="glyphicon" aria-hidden="true" ng-repeat="s in [0,0,0,0,0] track by $index" ng-class="$index >= comment.rating ? 'no-rating glyphicon-star-empty' : 'star-rating glyphicon-star'"></span> </p>
                         <p>{{comment.comment}}</p>
                         <footer>{{comment.customer.firstname}} {{comment.customer.username}}, {{comment.updatedAt | date:'MMM. dd, yyyy'}}</footer>
                     </blockquote>
@@ -99,4 +98,3 @@
         </div>
     </div>
 </div>
-

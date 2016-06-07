@@ -30,11 +30,11 @@
       "required": true,
       "default": false
     },
-     "where": {
+    "where": {
       "type": "string",
       "required": true
     },
-     "when": {
+    "when": {
       "type": "string",
       "required": true
     }
