@@ -248,7 +248,7 @@ angular.module('volunteerEventsApp')
         console.log("addToRegisteredEvents -> currentUserId =" + $rootScope.currentUser.id + "TokenId=" + $rootScope.currentUser.tokenId + " Username= " + $rootScope.currentUser.username);
         console.log("addToRegisteredEvents->volunteereventsId" + volunteereventsId);
          Registeredevents.create({customerId: $rootScope.currentUser.id, volunteereventsId: volunteereventsId});
-        $scope.showRegisteredEvents = !scope.showRegisteredEvents;
+        $scope.showRegisteredEvents = !$scope.showRegisteredEvents;
         console.log("Given the Favorite is now added as Registered Event, invoking delete FavoriteId =" + favoriteId);
         deleteFavorite(favoriteId);
 
