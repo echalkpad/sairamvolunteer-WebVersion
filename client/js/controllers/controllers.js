@@ -250,7 +250,7 @@ angular.module('volunteerEventsApp')
          Registeredevents.create({customerId: $rootScope.currentUser.id, volunteereventsId: volunteereventsId});
         $scope.showRegisteredEvents = !$scope.showRegisteredEvents;
         console.log("Given the Favorite is now added as Registered Event, invoking delete FavoriteId =" + favoriteId);
-        Favorites.deleteById({id: favoriteid});
+        Favorites.deleteById({id: favoriteId});
         $scope.showDelete = !$scope.showDelete;
         $state.go($state.current, {}, {reload: true});
 
