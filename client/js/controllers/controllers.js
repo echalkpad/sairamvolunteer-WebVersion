@@ -257,6 +257,60 @@ angular.module('volunteerEventsApp')
     };
 }])
 
+.controller('RegisteredEventsController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredevents', function ($scope, $rootScope, $state, Favorites, Customer,Registeredevents) {
+
+    $scope.tab = 1;
+    $scope.filtText = '';
+    $scope.showDetails = false;
+    $scope.showDelete = false;
+    $scope.showVolunteerEvent = false;
+    $scope.message = "Loading ...";
+    console.log("Entered RegisteredEventsController.........");
+
+
+    if ($rootScope.currentUser) {
+    console.log("currentUserId =" + $rootScope.currentUser.id);
+    console.log("currentUserName=" + $rootScope.currentUser.username);
+    console.log("currentUserToken=" + $rootScope.currentUser.tokenId);
+    Customer.registeredevents({id:$rootScope.currentUser.id, "filter":
+        {"include":["volunteerevents"]}
+        })
+        .$promise.then(
+        function (response) {
+            $scope.favorites = response;
+            $scope.showRegisteredEvent = true;
+            console.log("Received data for Customer registeredevents inside promise");
+        },
+        function (response) {
+            $scope.message = "Error: " + response.status + " " + response.statusText;
+        });
+    }
+    else{
+        $scope.message = "You are not logged in"
+    }
+
+    $scope.select = function (setTab) {
+        $scope.tab = setTab;
+
+
+    };
+
+
+    $scope.toggleDetails = function () {
+        $scope.showRegisteredEvent = !$scope.showRegisteredEvent;
+    };
+
+    $scope.toggleDelete = function () {
+        $scope.showDelete = !$scope.showDelete;
+    };
+
+
+    $scope.deleteRegisteredEvent = function(registeredEventId) {
+        Registeredevents.deleteById({id: registeredEventId});
+        $scope.showDelete = !$scope.showDelete;
+        $state.go($state.current, {}, {reload: true});
+    };
+}])
 
 
 .controller('HeaderController', ['$scope', '$state', '$rootScope', 'ngDialog', 'AuthService', function ($scope, $state, $rootScope, ngDialog, AuthService) {
