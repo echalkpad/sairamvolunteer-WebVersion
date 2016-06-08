@@ -250,35 +250,14 @@ angular.module('volunteerEventsApp')
          Registeredevents.create({customerId: $rootScope.currentUser.id, volunteereventsId: volunteereventsId});
         $scope.showRegisteredEvents = !$scope.showRegisteredEvents;
         console.log("Given the Favorite is now added as Registered Event, invoking delete FavoriteId =" + favoriteId);
-        deleteFavorite(favoriteId);
+        Favorites.deleteById({id: favoriteid});
+        $scope.showDelete = !$scope.showDelete;
+        $state.go($state.current, {}, {reload: true});
 
     };
 }])
 
-/*.controller('RegisteredeventsController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', function ($scope, $rootScope, $state, Favorites, Customer) {
 
-    $scope.tab = 1;
-    $scope.filtText = '';
-    $scope.showDetails = false;
-    $scope.showDelete = false;
-    $scope.showVolunteerEvent = false;
-    $scope.message = "Loading ...";
-    console.log("Entered RegisteredeventsController.........");
-
-
-
-
-    $scope.addToRegisteredEvents2 = function(volunteereventsId, favoriteId) {
-        console.log("Entered addToRegisteredEvents");
-        console.log("addToRegisteredEvents -> currentUserId =" + $rootScope.currentUser.id + "TokenId=" + $rootScope.currentUser.tokenId + " Username= " + $rootScope.currentUser.username);
-        console.log("addToRegisteredEvents->volunteereventsId" + volunteereventsId);
-         Registeredevents.create({customerId: $rootScope.currentUser.id, volunteereventsId: volunteereventsId});
-        $scope.showRegisteredEvents = !scope.showRegisteredEvents;
-        console.log("Given the Favorite is now added as Registered Event, invoking delete FavoriteId =" + favoriteId);
-        deleteFavorite(favoriteId);
-
-    };
-}])*/
 
 .controller('HeaderController', ['$scope', '$state', '$rootScope', 'ngDialog', 'AuthService', function ($scope, $state, $rootScope, ngDialog, AuthService) {
 
