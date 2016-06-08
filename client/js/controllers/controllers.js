@@ -2,7 +2,7 @@
 
 angular.module('volunteerEventsApp')
 
-.controller('VolunteerEventController', ['$scope', '$rootScope', 'Volunteerevents', 'Favorites', function ($scope, $rootScope, Volunteerevents, Favorites) {
+.controller('VolunteerEventController', ['$scope', '$rootScope', 'Volunteerevents', 'Favorites',function ($scope, $rootScope, Volunteerevents, Favorites) {
 
     $scope.tab = 1;
     $scope.filtText = '';
@@ -25,15 +25,6 @@ angular.module('volunteerEventsApp')
     $scope.select = function (setTab) {
         $scope.tab = setTab;
 
-       /* if (setTab === 2) {
-            $scope.filtText = "appetizer";
-        } else if (setTab === 3) {
-            $scope.filtText = "mains";
-        } else if (setTab === 4) {
-            $scope.filtText = "dessert";
-        } else {
-            $scope.filtText = "";
-        } */
     };
 
     $scope.isSelected = function (checkTab) {
@@ -52,6 +43,7 @@ angular.module('volunteerEventsApp')
         Favorites.create({customerId: $rootScope.currentUser.id, volunteereventsId: volunteereventsId});
         $scope.showFavorites = !$scope.showFavorites;
     };
+
 }])
 
 .controller('ContactController', ['$scope', function ($scope) {
@@ -194,23 +186,29 @@ angular.module('volunteerEventsApp')
 
 }])
 
-.controller('FavoriteController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', function ($scope, $rootScope, $state, Favorites, Customer) {
+.controller('FavoriteController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredevents', function ($scope, $rootScope, $state, Favorites, Custome,Registeredevents) {
 
     $scope.tab = 1;
     $scope.filtText = '';
     $scope.showDetails = false;
     $scope.showDelete = false;
-    $scope.showMenu = false;
+    $scope.showVolunteerEvent = false;
     $scope.message = "Loading ...";
+    console.log("Entered FavoriteController.........");
+
 
     if ($rootScope.currentUser) {
+    console.log("currentUserId =" + $rootScope.currentUser.id);
+    console.log("currentUserName=" + $rootScope.currentUser.username);
+    console.log("currentUserToken=" + $rootScope.currentUser.tokenId);
     Customer.favorites({id:$rootScope.currentUser.id, "filter":
         {"include":["volunteerevents"]}
         })
         .$promise.then(
         function (response) {
             $scope.favorites = response;
-            $scope.showMenu = true;
+            $scope.showVolunteerEvent = true;
+            console.log("Received data for Customer Favorites inside promise");
         },
         function (response) {
             $scope.message = "Error: " + response.status + " " + response.statusText;
@@ -223,15 +221,7 @@ angular.module('volunteerEventsApp')
     $scope.select = function (setTab) {
         $scope.tab = setTab;
 
-       /* if (setTab === 2) {
-            $scope.filtText = "appetizer";
-        } else if (setTab === 3) {
-            $scope.filtText = "mains";
-        } else if (setTab === 4) {
-            $scope.filtText = "dessert";
-        } else {
-            $scope.filtText = "";
-        }*/
+
     };
 
     $scope.isSelected = function (checkTab) {
@@ -251,7 +241,44 @@ angular.module('volunteerEventsApp')
         $scope.showDelete = !$scope.showDelete;
         $state.go($state.current, {}, {reload: true});
     };
+
+
+    $scope.addToRegisteredEvents = function(volunteereventsId, favoriteId) {
+        console.log("Entered addToRegisteredEvents");
+        console.log("addToRegisteredEvents -> currentUserId =" + $rootScope.currentUser.id + "TokenId=" + $rootScope.currentUser.tokenId + " Username= " + $rootScope.currentUser.username);
+        console.log("addToRegisteredEvents->volunteereventsId" + volunteereventsId);
+         Registeredevents.create({customerId: $rootScope.currentUser.id, volunteereventsId: volunteereventsId});
+        $scope.showRegisteredEvents = !scope.showRegisteredEvents;
+        console.log("Given the Favorite is now added as Registered Event, invoking delete FavoriteId =" + favoriteId);
+        deleteFavorite(favoriteId);
+
+    };
 }])
+
+/*.controller('RegisteredeventsController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', function ($scope, $rootScope, $state, Favorites, Customer) {
+
+    $scope.tab = 1;
+    $scope.filtText = '';
+    $scope.showDetails = false;
+    $scope.showDelete = false;
+    $scope.showVolunteerEvent = false;
+    $scope.message = "Loading ...";
+    console.log("Entered RegisteredeventsController.........");
+
+
+
+
+    $scope.addToRegisteredEvents2 = function(volunteereventsId, favoriteId) {
+        console.log("Entered addToRegisteredEvents");
+        console.log("addToRegisteredEvents -> currentUserId =" + $rootScope.currentUser.id + "TokenId=" + $rootScope.currentUser.tokenId + " Username= " + $rootScope.currentUser.username);
+        console.log("addToRegisteredEvents->volunteereventsId" + volunteereventsId);
+         Registeredevents.create({customerId: $rootScope.currentUser.id, volunteereventsId: volunteereventsId});
+        $scope.showRegisteredEvents = !scope.showRegisteredEvents;
+        console.log("Given the Favorite is now added as Registered Event, invoking delete FavoriteId =" + favoriteId);
+        deleteFavorite(favoriteId);
+
+    };
+}])*/
 
 .controller('HeaderController', ['$scope', '$state', '$rootScope', 'ngDialog', 'AuthService', function ($scope, $state, $rootScope, ngDialog, AuthService) {
 
