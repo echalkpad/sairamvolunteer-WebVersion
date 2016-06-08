@@ -2,7 +2,7 @@
 
 angular.module('volunteerEventsApp')
 
-.controller('VolunteerEventController', ['$scope', '$rootScope', 'Volunteerevents', 'Favorites',function ($scope, $rootScope, Volunteerevents, Favorites) {
+.controller('VolunteerEventController', ['$scope', '$rootScope', 'Volunteerevents', 'Favorites', function ($scope, $rootScope, Volunteerevents, Favorites) {
 
     $scope.tab = 1;
     $scope.filtText = '';
@@ -13,14 +13,14 @@ angular.module('volunteerEventsApp')
 
     Volunteerevents.find()
         .$promise.then(
-        function (response) {
-            $scope.volunteerevents = response;
-            $scope.showVolunteerEvent = true;
+            function (response) {
+                $scope.volunteerevents = response;
+                $scope.showVolunteerEvent = true;
 
-        },
-        function (response) {
-            $scope.message = "Error: " + response.status + " " + response.statusText;
-        });
+            },
+            function (response) {
+                $scope.message = "Error: " + response.status + " " + response.statusText;
+            });
 
     $scope.select = function (setTab) {
         $scope.tab = setTab;
@@ -39,8 +39,11 @@ angular.module('volunteerEventsApp')
         $scope.showFavorites = !$scope.showFavorites;
     };
 
-    $scope.addToFavorites = function(volunteereventsId) {
-        Favorites.create({customerId: $rootScope.currentUser.id, volunteereventsId: volunteereventsId});
+    $scope.addToFavorites = function (volunteereventsId) {
+        Favorites.create({
+            customerId: $rootScope.currentUser.id,
+            volunteereventsId: volunteereventsId
+        });
         $scope.showFavorites = !$scope.showFavorites;
     };
 
@@ -94,14 +97,19 @@ angular.module('volunteerEventsApp')
     $scope.showVolunteerEvent = false;
     $scope.message = "Loading ...";
 
-    $scope.volunteerevent = Volunteerevents.findById({id: $stateParams.id})
+    $scope.volunteerevent = Volunteerevents.findById({
+            id: $stateParams.id
+        })
         .$promise.then(
             function (response) {
                 $scope.volunteerevent = response;
                 $scope.showVolunteerEvent = true;
                 $scope.volunteerevent.comments = Volunteerevents.comments({
                     id: $stateParams.id,
-                    "filter":{"include":["customer"]}});
+                    "filter": {
+                        "include": ["customer"]
+                    }
+                });
             },
             function (response) {
                 $scope.message = "Error: " + response.status + " " + response.statusText;
@@ -121,7 +129,9 @@ angular.module('volunteerEventsApp')
 
         Comments.create($scope.mycomment);
 
-        $state.go($state.current, {}, {reload: true});
+        $state.go($state.current, {}, {
+            reload: true
+        });
 
         $scope.commentForm.$setPristine();
 
@@ -135,15 +145,19 @@ angular.module('volunteerEventsApp')
 
 // implement the IndexController and About Controller here
 
-.controller('HomeController', ['$scope', 'Volunteerevents', 'Leaders',  function ($scope,  Volunteerevents, Leaders) {
+.controller('HomeController', ['$scope', 'Volunteerevents', 'Leaders', function ($scope, Volunteerevents, Leaders) {
     $scope.showVolunteerEvent = false;
     $scope.showLeader = false;
     $scope.showPromotion = false;
     $scope.message = "Loading ...";
     console.log("Anout to fetch leaders");
-    var leadersInfo = Leaders.findOne({"filter":{"where":{
-            "featured": "true"
-        }}})
+    var leadersInfo = Leaders.findOne({
+            "filter": {
+                "where": {
+                    "featured": "true"
+                }
+            }
+        })
         .$promise.then(
             function (response) {
                 $scope.leader = response;
@@ -154,9 +168,13 @@ angular.module('volunteerEventsApp')
             }
         );
     console.log("About to fetch volunteer event")
-    $scope.volunteerevent = Volunteerevents.findOne({"filter":{"where":{
-            "featuredevent": "true"
-        }}})
+    $scope.volunteerevent = Volunteerevents.findOne({
+            "filter": {
+                "where": {
+                    "featuredevent": "true"
+                }
+            }
+        })
         .$promise.then(
             function (response) {
                 $scope.volunteerevent = response;
@@ -166,18 +184,18 @@ angular.module('volunteerEventsApp')
                 $scope.message = "Error: " + response.status + " " + response.statusText;
             }
         );
-   /* var promotions = Promotions.findOne({"filter":{"where":{
-            "featured": "true"
-        }}})
-    .$promise.then(
-            function (response) {
-                $scope.promotion = response;
-                $scope.showPromotion = true;
-            },
-            function (response) {
-                $scope.message = "Error: " + response.status + " " + response.statusText;
-            }
-        );*/
+    /* var promotions = Promotions.findOne({"filter":{"where":{
+             "featured": "true"
+         }}})
+     .$promise.then(
+             function (response) {
+                 $scope.promotion = response;
+                 $scope.showPromotion = true;
+             },
+             function (response) {
+                 $scope.message = "Error: " + response.status + " " + response.statusText;
+             }
+         );*/
 }])
 
 .controller('AboutController', ['$scope', 'Leaders', function ($scope, Leaders) {
@@ -186,33 +204,36 @@ angular.module('volunteerEventsApp')
 
 }])
 
-.controller('FavoriteController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredvolunteerevents', function ($scope, $rootScope, $state, Favorites, Customer,Registeredvolunteerevents) {
+.controller('FavoriteController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredvolunteerevents', function ($scope, $rootScope, $state, Favorites, Customer, Registeredvolunteerevents) {
 
     $scope.tab = 1;
     $scope.filtText = '';
     $scope.showVolunteerEvent = false;
+    $scope.showDelete = false;
+    $scope.showDetails=false;
     $scope.message = "Loading ...";
     console.log("Entered FavoriteController.........");
 
 
     if ($rootScope.currentUser) {
-    console.log("currentUserId =" + $rootScope.currentUser.id);
-    console.log("currentUserName=" + $rootScope.currentUser.username);
-    console.log("currentUserToken=" + $rootScope.currentUser.tokenId);
-    Customer.favorites({id:$rootScope.currentUser.id, "filter":
-        {"include":["registeredvolunteerevents"]}
-        })
-        .$promise.then(
-        function (response) {
-            $scope.favorites = response;
-            $scope.showVolunteerEvent = true;
-            console.log("Received data for Customer Favorites inside promise");
-        },
-        function (response) {
-            $scope.message = "Error: " + response.status + " " + response.statusText;
-        });
-    }
-    else{
+       console.log("current user = " + JSON.stringify($rootScope.currentUser));
+        Customer.favorites({
+                id: $rootScope.currentUser.id,
+                "filter": {
+                    "include": ["volunteerevents"]
+                }
+            })
+            .$promise.then(
+                function (response) {
+                    $scope.favorites = response;
+                    $scope.showVolunteerEvent = true;
+                    console.log("Received data for Customer Favorites inside promise");
+                    console.log("Favorite info= " + JSON.stringify(response));
+                },
+                function (response) {
+                    $scope.message = "Error: " + response.status + " " + response.statusText;
+                });
+    } else {
         $scope.message = "You are not logged in"
     }
 
@@ -234,57 +255,70 @@ angular.module('volunteerEventsApp')
         $scope.showDelete = !$scope.showDelete;
     };
 
-    $scope.deleteFavorite = function(favoriteid) {
-        Favorites.deleteById({id: favoriteid});
+    $scope.deleteFavorite = function (favoriteid) {
+        Favorites.deleteById({
+            id: favoriteid
+        });
         $scope.showDelete = !$scope.showDelete;
-        $state.go($state.current, {}, {reload: true});
+        $state.go($state.current, {}, {
+            reload: true
+        });
     };
 
 
-    $scope.addToRegisteredVolunteerEvents = function(volunteereventsId, favoriteId) {
+    $scope.addToRegisteredVolunteerEvents = function (volunteereventsId, favoriteId) {
         console.log("Entered addToRegisteredEvents");
         console.log("addToRegisteredVolunteerEvents -> currentUserId =" + $rootScope.currentUser.id + "TokenId=" + $rootScope.currentUser.tokenId + " Username= " + $rootScope.currentUser.username);
         console.log("addToRegisteredVolunteerEvents->volunteereventsId" + volunteereventsId);
-         Registeredvolunteerevents.create({customerId: $rootScope.currentUser.id, volunteereventsId: volunteereventsId});
+        Registeredvolunteerevents.create({
+            customerId: $rootScope.currentUser.id,
+            volunteereventsId: volunteereventsId
+        });
         $scope.showRegisteredEvents = !$scope.showRegisteredEvents;
         console.log("Given the Favorite is now added as Registered Event, invoking delete FavoriteId =" + favoriteId);
-        Favorites.deleteById({id: favoriteId});
+        Favorites.deleteById({
+            id: favoriteId
+        });
         $scope.showDelete = !$scope.showDelete;
-        $state.go($state.current, {}, {reload: true});
+        $state.go($state.current, {}, {
+            reload: true
+        });
 
     };
 }])
 
-.controller('RegisteredEventsController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredvolunteerevents', function ($scope, $rootScope, $state, Favorites, Customer,Registeredvolunteerevents) {
+.controller('RegisteredEventsController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredvolunteerevents', function ($scope, $rootScope, $state, Favorites, Customer, Registeredvolunteerevents) {
 
     $scope.tab = 1;
     $scope.filtText = '';
-
-    $scope.showRegisteredEvent = false;
+    $scope.showRegisteredVolunteerDetails = false;
+    $scope.showRegisteredVolunteerDelete = false;
+    $scope.showRegisteredVolunteerEvent = false;
     $scope.message = "Loading ...";
     console.log("Entered RegisteredEventsController.........");
 
 
     if ($rootScope.currentUser) {
-    console.log("currentUserId =" + $rootScope.currentUser.id);
-    console.log("currentUserName=" + $rootScope.currentUser.username);
-    console.log("currentUserToken=" + $rootScope.currentUser.tokenId);
-    Customer.registeredvolunteerevents({id:$rootScope.currentUser.id, "filter":
-        {"include":["registeredvolunteerevents"]}
-        })
-        .$promise.then(
-        function (response) {
-            $scope.registeredevents = response;
-            $scope.showRegisteredEvent = true;
+        console.log("currentUser =" + JSON.stringify($rootScope.currentUser));
 
-            console.log("Received data for Customer registeredvolunteerevents inside promise");
-            console.log(JSON.stringify(response));
-        },
-        function (response) {
-            $scope.message = "Error: " + response.status + " " + response.statusText;
-        });
-    }
-    else{
+        Customer.registeredvolunteerevents({
+                id: $rootScope.currentUser.id,
+                "filter": {
+                    "include": ["volunteerevents"]
+                }
+            })
+            .$promise.then(
+                function (response) {
+                    $scope.registeredvolunteerevents = response;
+                    $scope.showRegisteredVolunteerEvent = true;
+
+                    console.log("Received data for Customer registeredvolunteerevents inside promise");
+                    console.log(JSON.stringify(response));
+                },
+                function (response) {
+                    $scope.message = "Error: " + response.status + " " + response.statusText;
+                });
+    } else {
         $scope.message = "You are not logged in"
     }
 
@@ -294,20 +328,29 @@ angular.module('volunteerEventsApp')
 
     };
 
+    $scope.isSelected = function (checkTab) {
+        return ($scope.tab === checkTab);
+    };
+
 
     $scope.toggleDetails = function () {
-        $scope.showRegisteredEvent = !$scope.showRegisteredEvent;
+        $scope.showRegisteredVolunteerDetails = !$scope.showRegisteredVolunteerDetails;
     };
 
     $scope.toggleDelete = function () {
-        $scope.showDelete = !$scope.showDelete;
+        $scope.showRegisteredVolunteerDelete = !$scope.showRegisteredVolunteerDelete;
     };
 
 
-    $scope.deleteRegisteredVolunteerEvent = function(registeredEventId) {
-        Registeredvolunteerevents.deleteById({id: registeredEventId});
-        $scope.showDelete = !$scope.showDelete;
-        $state.go($state.current, {}, {reload: true});
+    $scope.deleteRegisteredVolunteerEvent = function (registeredEventId) {
+        console.log("Entered deleteRegisteredVolunteerEvent =" + registeredEventId);
+        Registeredvolunteerevents.deleteById({
+            id: registeredEventId
+        });
+        $scope.showRegisteredVolunteerDelete = !$scope.showRegisteredVolunteerDelete;
+        $state.go($state.current, {}, {
+            reload: true
+        });
     };
 }])
 
@@ -317,17 +360,22 @@ angular.module('volunteerEventsApp')
     $scope.loggedIn = false;
     $scope.username = '';
 
-    if(AuthService.isAuthenticated()) {
+    if (AuthService.isAuthenticated()) {
         $scope.loggedIn = true;
         $scope.username = AuthService.getUsername();
     }
 
     $scope.openLogin = function () {
-        ngDialog.open({ template: 'views/login.html', scope: $scope, className: 'ngdialog-theme-default', controller:"LoginController" });
+        ngDialog.open({
+            template: 'views/login.html',
+            scope: $scope,
+            className: 'ngdialog-theme-default',
+            controller: "LoginController"
+        });
     };
 
-    $scope.logOut = function() {
-       AuthService.logout();
+    $scope.logOut = function () {
+        AuthService.logout();
         $scope.loggedIn = false;
         $scope.username = '';
     };
@@ -342,19 +390,19 @@ angular.module('volunteerEventsApp')
         $scope.username = AuthService.getUsername();
     });
 
-    $scope.stateis = function(curstate) {
-       return $state.is(curstate);
+    $scope.stateis = function (curstate) {
+        return $state.is(curstate);
     };
 
 }])
 
 .controller('LoginController', ['$scope', 'ngDialog', '$localStorage', 'AuthService', function ($scope, ngDialog, $localStorage, AuthService) {
 
-    $scope.loginData = $localStorage.getObject('userinfo','{}');
+    $scope.loginData = $localStorage.getObject('userinfo', '{}');
 
-    $scope.doLogin = function() {
-        if($scope.rememberMe)
-           $localStorage.storeObject('userinfo',$scope.loginData);
+    $scope.doLogin = function () {
+        if ($scope.rememberMe)
+            $localStorage.storeObject('userinfo', $scope.loginData);
 
         AuthService.login($scope.loginData);
 
@@ -363,22 +411,26 @@ angular.module('volunteerEventsApp')
     };
 
     $scope.openRegister = function () {
-        ngDialog.open({ template: 'views/register.html', scope: $scope, className: 'ngdialog-theme-default', controller:"RegisterController" });
+        ngDialog.open({
+            template: 'views/register.html',
+            scope: $scope,
+            className: 'ngdialog-theme-default',
+            controller: "RegisterController"
+        });
     };
 
 }])
 
 .controller('RegisterController', ['$scope', 'ngDialog', '$localStorage', 'AuthService', function ($scope, ngDialog, $localStorage, AuthService) {
 
-    $scope.register={};
-    $scope.loginData={};
+    $scope.register = {};
+    $scope.loginData = {};
 
-    $scope.doRegister = function() {
+    $scope.doRegister = function () {
 
         AuthService.register($scope.registration);
 
         ngDialog.close();
 
     };
-}])
-;
+}]);

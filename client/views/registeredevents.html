@@ -12,10 +12,10 @@
         </div>
     </div>
     <div class="row row-content">
-        <div class="col-xs-12" ng-if="!showRegisteredEvent">
+        <div class="col-xs-12" ng-if="!showRegisteredVolunteerEvent">
             <h3>{{message}}</h3>
         </div>
-        <div class="col-xs-12" ng-if="showRegisteredEvent">
+        <div class="col-xs-12" ng-if="showRegisteredVolunteerEvent">
             <button ng-click="toggleDetails()" class="btn btn-xs btn-primary pull-right" type="button">
                 {{showDetails ? 'Hide Details':'Show Details'}}
             </button>
@@ -24,23 +24,21 @@
             </button>
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" ng-class="{active:isSelected(1)}">
-                    <a ng-click="select(1)" aria-controls="all menu" role="tab">Events</a></li>
+                    <a ng-click="select(1)" aria-controls="all menu" role="tab">Registered Events</a></li>
             </ul>
 
             <div class="tab-content">
                 <ul class="media-list tab-pane fade in active">
-                    <li class="media" ng-repeat="registeredevent in registeredevents | filter:filtText">
+                    <li class="media" ng-repeat="registeredvolunteerevent in registeredvolunteerevents | filter:filtText">
                         <div class="media-left media-middle">
-                            <a ui-sref="app.volunteereventdetail({id: registeredevent.volunteerevents.id})">
-                                <img class="media-object img-thumbnail" ng-src={{registeredevent.volunteerevents.image}} alt="Event">
+                            <a ui-sref="app.volunteereventdetail({id: registeredvolunteerevent.volunteerevents.id})">
+                                <img class="media-object img-thumbnail" ng-src={{registeredvolunteerevent.volunteerevents.image}} alt="Event">
                             </a>
                         </div>
                         <div class="media-body">
-                            <h2 class="media-heading">{{registeredevent.volunteerevents.name}}
-                        <!--<span class="label label-danger label-xs">{{favorite.dishes.label}}</span>
-                        <span class="badge">{{favorite.dishes.price/100 | currency}}</span>--></h2>
-                            <p ng-show="showDetails">{{registeredevent.volunteerevents.description}}</p>
-                            <button ng-show="showDelete" ng-click="deleteRegisteredVolunteerEvent(registeredevent.id)" class="btn btn-xs btn-danger pull-right" type="button">
+                            <h2 class="media-heading">{{registeredvolunteerevent.volunteerevents.name}} </h2>
+                            <p ng-show="showRegisteredVolunteerDetails">{{registeredvolunteerevent.volunteerevents.description}}</p>
+                            <button ng-show="showRegisteredVolunteerDelete" ng-click="deleteRegisteredVolunteerEvent(registeredvolunteerevent.id)" class="btn btn-xs btn-danger pull-right" type="button">
                                 <i class="fa fa-remove"></i>
                             </button>
 
