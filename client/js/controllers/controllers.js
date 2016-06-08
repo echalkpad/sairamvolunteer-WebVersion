@@ -281,7 +281,7 @@ angular.module('volunteerEventsApp')
             $scope.showRegisteredEvent = true;
 
             console.log("Received data for Customer registeredevents inside promise");
-            console.log(JSON.stringify(registeredevents));
+            console.log(JSON.stringify(response));
         },
         function (response) {
             $scope.message = "Error: " + response.status + " " + response.statusText;
