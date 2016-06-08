@@ -186,7 +186,7 @@ angular.module('volunteerEventsApp')
 
 }])
 
-.controller('FavoriteController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredevents', function ($scope, $rootScope, $state, Favorites, Custome,Registeredevents) {
+.controller('FavoriteController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredevents', function ($scope, $rootScope, $state, Favorites, Customer,Registeredevents) {
 
     $scope.tab = 1;
     $scope.filtText = '';
