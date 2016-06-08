@@ -25,21 +25,7 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" ng-class="{active:isSelected(1)}">
                     <a ng-click="select(1)" aria-controls="all menu" role="tab">Events</a></li>
-                <!--  <li role="presentation"
-                    ng-class="{active:isSelected(2)}">
-                    <a ng-click="select(2)"
-                    aria-controls="appetizers"
-                     role="tab">Appetizers</a></li>
-                    <li role="presentation"
-                    ng-class="{active:isSelected(3)}">
-                    <a ng-click="select(3)"
-                     aria-controls="mains"
-                     role="tab">Mains</a></li>
-                    <li role="presentation"
-                    ng-class="{active:isSelected(4)}">
-                    <a  ng-click="select(4)"
-                     aria-controls="desserts"
-                     role="tab">Desserts</a></li>-->
+
             </ul>
 
             <div class="tab-content">
@@ -58,7 +44,7 @@
                             <button ng-show="showDelete" ng-click="deleteFavorite(favorite.id)" class="btn btn-xs btn-danger pull-right" type="button">
                                 <i class="fa fa-remove"></i>
                             </button>
-                            <button ng-click="addToRegisteredEvents(favorite.volunteerevents.id,favorite.id)" class="btn btn-primary pull-left">Register</button>
+                            <button ng-click="addToRegisteredVolunteerEvents(favorite.volunteerevents.id,favorite.id)" class="btn btn-primary pull-left">Register</button>
                         </div>
                     </li>
                 </ul>

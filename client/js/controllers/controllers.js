@@ -186,12 +186,10 @@ angular.module('volunteerEventsApp')
 
 }])
 
-.controller('FavoriteController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredevents', function ($scope, $rootScope, $state, Favorites, Customer,Registeredevents) {
+.controller('FavoriteController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredvolunteerevents', function ($scope, $rootScope, $state, Favorites, Customer,Registeredvolunteerevents) {
 
     $scope.tab = 1;
     $scope.filtText = '';
-    $scope.showDetails = false;
-    $scope.showDelete = false;
     $scope.showVolunteerEvent = false;
     $scope.message = "Loading ...";
     console.log("Entered FavoriteController.........");
@@ -202,7 +200,7 @@ angular.module('volunteerEventsApp')
     console.log("currentUserName=" + $rootScope.currentUser.username);
     console.log("currentUserToken=" + $rootScope.currentUser.tokenId);
     Customer.favorites({id:$rootScope.currentUser.id, "filter":
-        {"include":["volunteerevents"]}
+        {"include":["registeredvolunteerevents"]}
         })
         .$promise.then(
         function (response) {
@@ -243,11 +241,11 @@ angular.module('volunteerEventsApp')
     };
 
 
-    $scope.addToRegisteredEvents = function(volunteereventsId, favoriteId) {
+    $scope.addToRegisteredVolunteerEvents = function(volunteereventsId, favoriteId) {
         console.log("Entered addToRegisteredEvents");
-        console.log("addToRegisteredEvents -> currentUserId =" + $rootScope.currentUser.id + "TokenId=" + $rootScope.currentUser.tokenId + " Username= " + $rootScope.currentUser.username);
-        console.log("addToRegisteredEvents->volunteereventsId" + volunteereventsId);
-         Registeredevents.create({customerId: $rootScope.currentUser.id, volunteereventsId: volunteereventsId});
+        console.log("addToRegisteredVolunteerEvents -> currentUserId =" + $rootScope.currentUser.id + "TokenId=" + $rootScope.currentUser.tokenId + " Username= " + $rootScope.currentUser.username);
+        console.log("addToRegisteredVolunteerEvents->volunteereventsId" + volunteereventsId);
+         Registeredvolunteerevents.create({customerId: $rootScope.currentUser.id, volunteereventsId: volunteereventsId});
         $scope.showRegisteredEvents = !$scope.showRegisteredEvents;
         console.log("Given the Favorite is now added as Registered Event, invoking delete FavoriteId =" + favoriteId);
         Favorites.deleteById({id: favoriteId});
@@ -257,13 +255,12 @@ angular.module('volunteerEventsApp')
     };
 }])
 
-.controller('RegisteredEventsController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredevents', function ($scope, $rootScope, $state, Favorites, Customer,Registeredevents) {
+.controller('RegisteredEventsController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredvolunteerevents', function ($scope, $rootScope, $state, Favorites, Customer,Registeredvolunteerevents) {
 
     $scope.tab = 1;
     $scope.filtText = '';
-    $scope.showDetails = false;
-    $scope.showDelete = false;
-    $scope.showVolunteerEvent = false;
+
+    $scope.showRegisteredEvent = false;
     $scope.message = "Loading ...";
     console.log("Entered RegisteredEventsController.........");
 
@@ -272,15 +269,15 @@ angular.module('volunteerEventsApp')
     console.log("currentUserId =" + $rootScope.currentUser.id);
     console.log("currentUserName=" + $rootScope.currentUser.username);
     console.log("currentUserToken=" + $rootScope.currentUser.tokenId);
-    Customer.registeredevents({id:$rootScope.currentUser.id, "filter":
-        {"include":["volunteerevents"]}
+    Customer.registeredvolunteerevents({id:$rootScope.currentUser.id, "filter":
+        {"include":["registeredvolunteerevents"]}
         })
         .$promise.then(
         function (response) {
             $scope.registeredevents = response;
             $scope.showRegisteredEvent = true;
 
-            console.log("Received data for Customer registeredevents inside promise");
+            console.log("Received data for Customer registeredvolunteerevents inside promise");
             console.log(JSON.stringify(response));
         },
         function (response) {
@@ -307,8 +304,8 @@ angular.module('volunteerEventsApp')
     };
 
 
-    $scope.deleteRegisteredEvent = function(registeredEventId) {
-        Registeredevents.deleteById({id: registeredEventId});
+    $scope.deleteRegisteredVolunteerEvent = function(registeredEventId) {
+        Registeredvolunteerevents.deleteById({id: registeredEventId});
         $scope.showDelete = !$scope.showDelete;
         $state.go($state.current, {}, {reload: true});
     };
