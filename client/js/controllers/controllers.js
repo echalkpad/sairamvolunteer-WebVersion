@@ -2,13 +2,15 @@
 
 angular.module('volunteerEventsApp')
 
-.controller('VolunteerEventController', ['$scope', '$rootScope', 'Volunteerevents', 'Favorites', function ($scope, $rootScope, Volunteerevents, Favorites) {
+.controller('VolunteerEventController', ['$scope', '$rootScope', 'Volunteerevents', 'Favorites', 'Customer', 'ngDialog', function ($scope, $rootScope, Volunteerevents, Favorites, Customer, ngDialog) {
 
     $scope.tab = 1;
     $scope.filtText = '';
     $scope.showDetails = false;
     $scope.showFavorites = false;
     $scope.showVolunteerEvent = false;
+    $scope.favoriteAlreadyExistsMessage = " event was already added as a Favorite. Click on Favorites link to view Favorites";
+    $scope.showFavoriteAlreadyExistsMessage = false;
     $scope.message = "Loading ...";
 
     Volunteerevents.find()
@@ -39,15 +41,80 @@ angular.module('volunteerEventsApp')
         $scope.showFavorites = !$scope.showFavorites;
     };
 
-    $scope.addToFavorites = function (volunteereventsId) {
-        Favorites.create({
-            customerId: $rootScope.currentUser.id,
-            volunteereventsId: volunteereventsId
-        });
-        $scope.showFavorites = !$scope.showFavorites;
+    $scope.addToFavorites = function (volunteereventsId, volunteereventName) {
+        var favoriteAlreadyExsits = false;
+        console.log("current user in addToFavorites = " + JSON.stringify($rootScope.currentUser));
+        if ($rootScope.currentUser) {
+            Customer.favorites({
+                    id: $rootScope.currentUser.id
+                })
+                .$promise.then(
+                    function (response) {
+
+                        for (var tempFavorites in response) {
+                            var tempFavoritesVolunteereventsId = response[tempFavorites].volunteereventsId;
+                            //console.log("tempFavorites.volunteereventsId=" + tempFavoritesVolunteereventsId + " volunteereventsId input=" + volunteereventsId);
+                            if (tempFavoritesVolunteereventsId === volunteereventsId) {
+                                favoriteAlreadyExsits = true;
+                                $scope.showFavorites = !$scope.showFavorites;
+                                $scope.showFavoriteAlreadyExistsMessage = false;
+                                console.log("showFavoriteAlreadyExistsMessage =" + $scope.showFavoriteAlreadyExistsMessage);
+                                var message = '\
+                                <div class="ngdialog-message">\
+                                <div><h3>Favorite Already Exists</h3></div>' +
+                                    '<div><p>' + volunteereventName + $scope.favoriteAlreadyExistsMessage + '</p><div>' +
+                                    '<div class="ngdialog-buttons">\
+                                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click=confirm("OK")>OK</button>\
+                                </div>'
+
+                                ngDialog.openConfirm({
+                                    template: message,
+                                    plain: 'true'
+                                });
+                                break;
+                            }
+                        }
+                        if (favoriteAlreadyExsits === false) {
+                            console.log("Favorite for this volunteereventsId=" + volunteereventsId + " doesn't exist and hence adding the favorite");
+                            Favorites.create({
+                                customerId: $rootScope.currentUser.id,
+                                volunteereventsId: volunteereventsId
+                            }).$promise.then(
+                                function (response) {
+                                    $scope.showFavorites = !$scope.showFavorites;
+                                },
+                                function (response) {
+                                    $scope.message = "Error in addFavorites: " + response.status + " " + response.statusText;
+                                }
+                            );
+
+
+                        }
+                    },
+                    function (response) {
+                        $scope.message = "Error: " + response.status + " " + response.statusText;
+                        console.log("Error in add Favorites " + $scope.message);
+
+                    }
+                );
+        } else {
+            $scope.message = "You are currently not logged in. Click on Login link to login";
+            var message = '\
+                <div class="ngdialog-message">\
+                <div><h3>Currently Not Logged In</h3></div>' +
+                '<div><p>' + $scope.message + '</p></div>' +
+                '<div class="ngdialog-buttons">\
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click=confirm("OK")>OK</button>\
+                </div>'
+
+            ngDialog.openConfirm({
+                template: message,
+                plain: 'true'
+            });
+        }
     };
 
-}])
+            }])
 
 .controller('ContactController', ['$scope', function ($scope) {
 
@@ -127,7 +194,14 @@ angular.module('volunteerEventsApp')
         if ($rootScope.currentUser)
             $scope.mycomment.customerId = $rootScope.currentUser.id;
 
-        Comments.create($scope.mycomment);
+        Comments.create($scope.mycomment).$promise.then(
+            function (response) {
+                console.log("comments created successfully");
+            },
+            function (response) {
+                $scope.message = "Error: " + response.status + " " + response.statusText;
+            }
+        );
 
         $state.go($state.current, {}, {
             reload: true
@@ -200,23 +274,30 @@ angular.module('volunteerEventsApp')
 
 .controller('AboutController', ['$scope', 'Leaders', function ($scope, Leaders) {
 
-    $scope.leaders = Leaders.find();
+    Leaders.find().$promise.then(
+        function (response) {
+            $scope.leaders = response;
+        },
+        function (response) {
+            $scope.message = "Error: " + response.status + " " + response.statusText;
+        }
+    );
 
 }])
 
-.controller('FavoriteController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredvolunteerevents', function ($scope, $rootScope, $state, Favorites, Customer, Registeredvolunteerevents) {
+.controller('FavoriteController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredvolunteerevents', 'ngDialog', function ($scope, $rootScope, $state, Favorites, Customer, Registeredvolunteerevents, ngDialog) {
 
     $scope.tab = 1;
     $scope.filtText = '';
     $scope.showVolunteerEvent = false;
     $scope.showDelete = false;
-    $scope.showDetails=false;
+    $scope.showDetails = false;
     $scope.message = "Loading ...";
     console.log("Entered FavoriteController.........");
 
 
     if ($rootScope.currentUser) {
-       console.log("current user = " + JSON.stringify($rootScope.currentUser));
+        console.log("current user = " + JSON.stringify($rootScope.currentUser));
         Customer.favorites({
                 id: $rootScope.currentUser.id,
                 "filter": {
@@ -256,38 +337,141 @@ angular.module('volunteerEventsApp')
     };
 
     $scope.deleteFavorite = function (favoriteid) {
-        Favorites.deleteById({
-            id: favoriteid
-        });
-        $scope.showDelete = !$scope.showDelete;
-        $state.go($state.current, {}, {
-            reload: true
-        });
+        if ($rootScope.currentUser) {
+            Favorites.deleteById({
+                id: favoriteid
+            }).$promise.then(
+                function (response) {
+                    $scope.showDelete = !$scope.showDelete;
+                    $state.go($state.current, {}, {
+                        reload: true
+                    });
+
+                },
+                function (response) {
+                    $scope.message = "Error in deleteFavorites: " + response.status + " " + response.statusText;
+                });
+            $scope.showDelete = !$scope.showDelete;
+            $state.go($state.current, {}, {
+                reload: true
+            });
+        } else {
+            $scope.message = "You are currently not logged in. Click on Login link to login";
+            var message = '\
+                <div class="ngdialog-message">\
+                <div><h3>Currently Not Logged In</h3></div>' +
+                '<div><p>' + $scope.message + '</p></div>' +
+                '<div class="ngdialog-buttons">\
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click=confirm("OK")>OK</button>\
+                </div>'
+
+            ngDialog.openConfirm({
+                template: message,
+                plain: 'true'
+            });
+        }
+
     };
 
 
     $scope.addToRegisteredVolunteerEvents = function (volunteereventsId, favoriteId) {
+        var registeredVolunteerEventAlreadyExists = false;
+        $scope.registeredVolunteerEventAlreadyExistsMessage = " event was already added as a Favorite. Click on Favorites link to view Favorites";
+
         console.log("Entered addToRegisteredEvents");
-        console.log("addToRegisteredVolunteerEvents -> currentUserId =" + $rootScope.currentUser.id + "TokenId=" + $rootScope.currentUser.tokenId + " Username= " + $rootScope.currentUser.username);
+        console.log("addToRegisteredVolunteerEvents -> currentUse" + JSON.stringify($rootScope.currentUser));
         console.log("addToRegisteredVolunteerEvents->volunteereventsId" + volunteereventsId);
-        Registeredvolunteerevents.create({
-            customerId: $rootScope.currentUser.id,
-            volunteereventsId: volunteereventsId
-        });
-        $scope.showRegisteredEvents = !$scope.showRegisteredEvents;
-        console.log("Given the Favorite is now added as Registered Event, invoking delete FavoriteId =" + favoriteId);
-        Favorites.deleteById({
-            id: favoriteId
-        });
-        $scope.showDelete = !$scope.showDelete;
-        $state.go($state.current, {}, {
-            reload: true
-        });
+
+        if ($rootScope.currentUser) {
+
+            Customer.registeredvolunteerevents({
+                    id: $rootScope.currentUser.id
+                })
+                .$promise.then(
+                    function (response) {
+
+                        for (var tempRegisteredVolunteerEvents in response) {
+                            var tempRegisteredVolunteereventsId = response[tempRegisteredVolunteerEvents].volunteereventsId;
+                            //console.log("tempFavorites.volunteereventsId=" + tempFavoritesVolunteereventsId + " volunteereventsId input=" + volunteereventsId);
+                            if (tempRegisteredVolunteereventsId === volunteereventsId) {
+                                registeredVolunteerEventAlreadyExists = true;
+                                $scope.showRegisteredVolunteerEvent = !$scope.showRegisteredVolunteerEvent;
+
+                                var message = '\
+                                            <div class="ngdialog-message">\
+                                            <div><h3>Registered Event Already Exists</h3></div>' +
+                                    '<div><p>' + 'This event is already registered.  Click on Registered Events link to view Registered Events' + '</p></div>' +
+                                    '<div class="ngdialog-buttons">\
+                                            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click=confirm("OK")>OK</button>\
+                                            </div>'
+
+                                ngDialog.openConfirm({
+                                    template: message,
+                                    plain: 'true'
+                                });
+                                break;
+                            }
+                        }
+
+                        if (registeredVolunteerEventAlreadyExists === false) {
+                            console.log("RegisteredVolunteerEvent for this volunteereventsId=" + volunteereventsId + " doesn't exist and hence adding the RegisteredVolunteerEvent");
+                            Registeredvolunteerevents.create({
+                                customerId: $rootScope.currentUser.id,
+                                volunteereventsId: volunteereventsId
+                            }).$promise.then(
+                                function (response) {
+                                    console.log("Successfully created registeredVolunteerEvents");
+                                },
+                                function (response) {
+                                    $scope.message = "Error: " + response.status + " " + response.statusText;
+                                }
+                            );
+
+                            $scope.showRegisteredEvents = !$scope.showRegisteredEvents;
+                            console.log("Given the Favorite is now added as Registered Event, invoking delete FavoriteId =" + favoriteId);
+                            Favorites.deleteById({
+                                id: favoriteId
+                            }).$promise.then(
+                                function (response) {
+                                    $scope.showDelete = !$scope.showDelete;
+                                    $state.go($state.current, {}, {
+                                        reload: true
+                                    });
+
+                                },
+                                function (response) {
+                                    $scope.message = "Error in addToRegisteredVolunteerEvents: " + response.status + " " + response.statusText;
+                                });
+                        }
+
+
+                    },
+
+                    function (response) {
+                        $scope.message = "Error in addToRegisteredVolunteerEvents: " + response.status + " " + response.statusText;
+                    });
+        } else {
+            $scope.message = "You are currently not logged in. Click on Login link to login";
+            var message = '\
+                                    <div class="ngdialog-message">\
+                                    <div><h3>Currently Not Logged In</h3></div>' +
+                '<div><p>' + $scope.message + '</p></div>' +
+                '<div class="ngdialog-buttons">\
+                                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click=confirm("OK")>OK</button>\
+                                    </div>'
+
+            ngDialog.openConfirm({
+                template: message,
+                plain: 'true'
+            });
+        }
+
+
 
     };
-}])
+            }])
 
-.controller('RegisteredEventsController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredvolunteerevents', function ($scope, $rootScope, $state, Favorites, Customer, Registeredvolunteerevents) {
+.controller('RegisteredEventsController', ['$scope', '$rootScope', '$state', 'Favorites', 'Customer', 'Registeredvolunteerevents', 'ngDialog', function ($scope, $rootScope, $state, Favorites, Customer, Registeredvolunteerevents, ngDialog) {
 
     $scope.tab = 1;
     $scope.filtText = '';
@@ -344,13 +528,34 @@ angular.module('volunteerEventsApp')
 
     $scope.deleteRegisteredVolunteerEvent = function (registeredEventId) {
         console.log("Entered deleteRegisteredVolunteerEvent =" + registeredEventId);
-        Registeredvolunteerevents.deleteById({
-            id: registeredEventId
-        });
-        $scope.showRegisteredVolunteerDelete = !$scope.showRegisteredVolunteerDelete;
-        $state.go($state.current, {}, {
-            reload: true
-        });
+        if ($rootScope.currentUser) {
+            Registeredvolunteerevents.deleteById({
+                id: registeredEventId
+            }).$promise.then(
+                function (response) {
+                    $scope.showRegisteredVolunteerDelete = !$scope.showRegisteredVolunteerDelete;
+                    $state.go($state.current, {}, {
+                        reload: true
+                    });
+                },
+                function (response) {
+                    $scope.message = "Error in deleteRegisteredVolunteerEvents: " + response.status + " " + response.statusText;
+                });
+        } else {
+            $scope.message = "You are currently not logged in. Click on Login link to login";
+            var message = '\
+                <div class="ngdialog-message">\
+                <div><h3>Currently Not Logged In</h3></div>' +
+                '<div><p>' + $scope.message + '</p></div>' +
+                '<div class="ngdialog-buttons">\
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click=confirm("OK")>OK</button>\
+                </div>'
+
+            ngDialog.openConfirm({
+                template: message,
+                plain: 'true'
+            });
+        }
     };
 }])
 
