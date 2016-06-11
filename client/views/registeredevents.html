@@ -38,6 +38,9 @@
                         <div class="media-body">
                             <h2 class="media-heading">{{registeredvolunteerevent.volunteerevents.name}} </h2>
                             <p ng-show="showRegisteredVolunteerDetails">{{registeredvolunteerevent.volunteerevents.description}}</p>
+                            <br>
+                            <p>
+                                <h4><span class="glyphicon glyphicon-calendar"></span> {{registeredvolunteerevent.volunteerevents.when}} &emsp; &emsp;&emsp;&emsp;&emsp;&emsp; &emsp; <span class="glyphicon glyphicon-globe"></span> {{registeredvolunteerevent.volunteerevents.where}}</h4></p>
                             <button ng-show="showRegisteredVolunteerDelete" ng-click="deleteRegisteredVolunteerEvent(registeredvolunteerevent.id)" class="btn btn-xs btn-danger pull-right" type="button">
                                 <i class="fa fa-remove"></i>
                             </button>
